@@ -10,6 +10,8 @@ app.get('/',(req,res)=>{
 })
 
 //set Template Engine
+
+app.use(express.static('public'))
 app.use(expressLayout)
 app.set('views',path.join(__dirname,'/resources/views'))
 app.set('view engine','ejs')
