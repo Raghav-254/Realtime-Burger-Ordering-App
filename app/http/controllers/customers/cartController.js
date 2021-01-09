@@ -3,9 +3,7 @@ const { json } = require("express")
 function cartController() {
     return {
         index(req, res) {
-            console.log(req.session.cart.items)
-            console.log(req.session.cart.totalQty)
-            console.log(req.session.cart.totalPrice)
+            
             res.render('customers/cart')
         },
         update(req, res) {

@@ -23,6 +23,7 @@
     "express-flash": "0.0.2",
     "express-session": "^1.17.1",
     "laravel-mix": "^5.0.4",
+    "moment": "^2.29.1",
     "mongoose": "^5.11.10",
     "nodemon": "^2.0.6",
     "noty": "^3.2.0-beta",
