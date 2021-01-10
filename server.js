@@ -8,6 +8,7 @@ const session=require('express-session')
 const flash=require('express-flash')
 const passport=require('passport')
 const MongoDbStore=require('connect-mongo')(session)
+const Emitter=require('events')
 require('dotenv').config()
 const PORT= 3000
 
@@ -35,6 +36,10 @@ let mongoStore=new MongoDbStore({
     mongooseConnection:connection,
     collection:'sessions'   
 })
+
+// Event emitter
+const eventEmitter = new Emitter()
+app.set('eventEmitter', eventEmitter)
 
 
 //Session Config
@@ -74,7 +79,27 @@ app.use(express.static('public'))
 
 require('./routes/web.js')(app)
 
-
-app.listen(PORT,()=>{
+const server = app.listen(PORT , () => {
     console.log(`Listening on port ${PORT}`)
+})
+
+// Socket
+
+const io = require('socket.io')(server)
+io.on('connection', (socket) => {
+// Join
+    console.log(socket.id)
+    //Ye client side se recieve kar rhe hai
+    socket.on('join',(orderId)=>{
+        console.log(orderId)
+        socket.join(orderId) //Room create kar rhe hai yaha
+    })
+})
+
+eventEmitter.on('orderUpdated', (data) => {
+    io.to(`order_${data.id}`).emit('orderUpdated', data)
+})
+
+eventEmitter.on('orderPlaced',(data)=>{
+    io.to('adminRoom').emit('orderPlaced',data)
 })
