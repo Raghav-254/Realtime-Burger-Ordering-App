@@ -1,8 +1,8 @@
 import axios from 'axios'
-import Noty from 'noty'
 import moment from 'moment'
+import Noty from 'noty'
 
-function initAdmin(socket){
+export function initAdmin(socket) {
     const orderTableBody = document.querySelector('#orderTableBody')
     let orders = []
     let markup
@@ -13,8 +13,14 @@ function initAdmin(socket){
         }
     }).then(res => {
         orders = res.data
-        markup = generateMarkup(orders)
-        orderTableBody.innerHTML = markup
+        if(orders.length==0){
+            orderTableBody.innerHTML='No new order placed!'
+        }
+        else{
+            markup = generateMarkup(orders)
+            orderTableBody.innerHTML = markup
+        }
+        
     }).catch(err => {
         console.log(err)
     })
@@ -37,7 +43,6 @@ function initAdmin(socket){
                     <div>${ renderItems(order.items) }</div>
                 </td>
                 <td class="border px-4 py-2">${ order.customerId.name }</td>
-                <td class="border px-4 py-2">${ order.phone }</td>
                 <td class="border px-4 py-2">${ order.address }</td>
                 <td class="border px-4 py-2">
                     <div class="inline-block relative w-64">
@@ -78,7 +83,7 @@ function initAdmin(socket){
         `
         }).join('')
     }
-    //Socket
+    // Socket
     socket.on('orderPlaced', (order) => {
         new Noty({
             type: 'success',
@@ -90,6 +95,4 @@ function initAdmin(socket){
         orderTableBody.innerHTML = ''
         orderTableBody.innerHTML = generateMarkup(orders)
     })
-
 }
-export default initAdmin

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Noty from 'noty'
-import initAdmin  from './admin'
+import {initAdmin}  from './admin'
 const moment=require('moment')
 // Socket
 let socket=io()
@@ -45,7 +45,7 @@ if(alertMsg){
     },2000)
 }
 
-initAdmin(socket)
+
 
 // Change order status
 let statuses = document.querySelectorAll('.status_line')
@@ -78,8 +78,9 @@ function updateStatus(order) {
 }
 
 updateStatus(order)
+initAdmin(socket)
 
-
+//Ajax Call
 
 if(order){
 
@@ -88,6 +89,7 @@ if(order){
 }
 
 let adminAreaPath = window.location.pathname
+//console.log(adminAreaPath)
 if(adminAreaPath.includes('admin')) {
     
     socket.emit('join', 'adminRoom')

@@ -12,6 +12,7 @@ const orderSchema=new Schema({
     phone:{type:String,require:true},
     address:{type:String,required:true},
     paymentType:{type:String,default:'COD'},
+    paymentStatus:{type:Boolean,default:false},
     status:{type:String,default:'order_placed'}
 
 

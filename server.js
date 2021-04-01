@@ -13,7 +13,11 @@ require('dotenv').config()
 const PORT= 3000
 
 
+//to run server.js use command-nodemon server.js
+//to run laravel mix use command-npm run watch
+
 //Database connection
+
 
 const url='mongodb://localhost:27017/pizza';
 
@@ -88,10 +92,10 @@ const server = app.listen(PORT , () => {
 const io = require('socket.io')(server)
 io.on('connection', (socket) => {
 // Join
-    console.log(socket.id)
+    //console.log(socket.id)
     //Ye client side se recieve kar rhe hai
     socket.on('join',(orderId)=>{
-        console.log(orderId)
+        //console.log(orderId)
         socket.join(orderId) //Room create kar rhe hai yaha
     })
 })
@@ -101,5 +105,6 @@ eventEmitter.on('orderUpdated', (data) => {
 })
 
 eventEmitter.on('orderPlaced',(data)=>{
+    //console.log(data)
     io.to('adminRoom').emit('orderPlaced',data)
 })
