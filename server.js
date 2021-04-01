@@ -10,7 +10,9 @@ const passport=require('passport')
 const MongoDbStore=require('connect-mongo')(session)
 const Emitter=require('events')
 require('dotenv').config()
-const PORT= 3000
+const PORT= process.env.PORT || 3000
+//process.env.DB_URL
+const dbUrl = process.env.DB_URL;
 
 
 //to run server.js use command-nodemon server.js
@@ -19,9 +21,9 @@ const PORT= 3000
 //Database connection
 
 
-const url='mongodb://localhost:27017/pizza';
+//const url=
 
-mongoose.connect(url,{
+mongoose.connect(dbUrl,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -37,8 +39,12 @@ connection.once('open',()=>{
 
 //Session Store
 let mongoStore=new MongoDbStore({
+    url:dbUrl,
     mongooseConnection:connection,
-    collection:'sessions'   
+    touchAfter:24*60*60,
+    collection:'sessions',
+    secret: process.env.SECRET_KEY  
+
 })
 
 // Event emitter
