@@ -21,7 +21,7 @@ const dbUrl = process.env.DB_URL;
 //Database connection
 
 
-//const url=
+
 
 mongoose.connect(dbUrl,{
     useNewUrlParser: true,
@@ -33,9 +33,7 @@ mongoose.connect(dbUrl,{
 const connection=mongoose.connection;
 connection.once('open',()=>{
     console.log('Database connected..')
-}).catch(err=>{
-    console.log('Connection failed..')
-})
+});
 
 //Session Store
 let mongoStore=new MongoDbStore({
