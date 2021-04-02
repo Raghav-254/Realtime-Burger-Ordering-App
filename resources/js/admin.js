@@ -13,14 +13,13 @@ export function initAdmin(socket) {
         }
     }).then(res => {
         orders = res.data
-        if(orders.length==0){
-            orderTableBody.innerHTML='No new order placed!'
+        if (orders.length == 0) {
+            orderTableBody.innerHTML = 'No new order placed'
         }
-        else{
+        else {
             markup = generateMarkup(orders)
             orderTableBody.innerHTML = markup
         }
-        
     }).catch(err => {
         console.log(err)
     })
@@ -43,6 +42,7 @@ export function initAdmin(socket) {
                     <div>${ renderItems(order.items) }</div>
                 </td>
                 <td class="border px-4 py-2">${ order.customerId.name }</td>
+                <td class="border px-4 py-2">${ order.phone }</td>
                 <td class="border px-4 py-2">${ order.address }</td>
                 <td class="border px-4 py-2">
                     <div class="inline-block relative w-64">
@@ -78,11 +78,11 @@ export function initAdmin(socket) {
                 <td class="border px-4 py-2">
                     ${ moment(order.createdAt).format('hh:mm A') }
                 </td>
-               
             </tr>
         `
         }).join('')
     }
+
     // Socket
     socket.on('orderPlaced', (order) => {
         new Noty({
